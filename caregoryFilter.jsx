@@ -1,4 +1,12 @@
-function Button({ children, onClick, styles }) {
+import { useState } from "react";
+
+function Button({ children, onClick, isActive }) {
+  const activeStyle = {
+    backgroundColor: 'black',
+    color: 'white',
+    paddingInline: '20px'
+  };
+
   return (
     <button
       style={{
@@ -14,7 +22,7 @@ function Button({ children, onClick, styles }) {
         borderRadius: '15px',
         paddingInline: '10px',
         fontWeight: 'bold',
-        ...styles
+        ...(isActive ? activeStyle : {}),
       }}
       onClick={onClick}
     >
@@ -23,7 +31,9 @@ function Button({ children, onClick, styles }) {
   );
 }
 
-function CategoryFilter({ onFilterChange }) {
+export default function CategoryFilter({ onFilterChange }) {
+  const [activeCategory, setActiveCategory] = useState('all');
+  
   return (
     <div style={{
       display: 'flex',
@@ -32,13 +42,52 @@ function CategoryFilter({ onFilterChange }) {
       justifyContent: 'center',
       alignItems: 'center'
     }}>
-      <Button styles={{ backgroundColor: 'black', color: 'white', paddingInline: '20px' }} onClick={() => onFilterChange('all')}>All</Button>
-      <Button onClick={() => onFilterChange('drinks')}>Drinks</Button>
-      <Button onClick={() => onFilterChange('pizza')}>Pizzas</Button>
-      <Button onClick={() => onFilterChange('burger')}>Burgers</Button>
-      <Button onClick={() => onFilterChange('snack')}>Snacks</Button>
+      <Button
+        isActive={activeCategory === 'all'}
+        onClick={() => {
+          onFilterChange('all');
+          setActiveCategory('all');
+        }}
+      >
+        All
+      </Button>
+      <Button
+        isActive={activeCategory === 'drinks'}
+        onClick={() => {
+          onFilterChange('drinks');
+          setActiveCategory('drinks');
+        }}
+      >
+        Drinks
+      </Button>
+        <Button
+        isActive={activeCategory === 'pizza'}
+        onClick={() => {
+          onFilterChange('pizza');
+          setActiveCategory('pizza');
+        }}
+      >
+        Pizzas
+      </Button>
+      <Button
+        isActive={activeCategory === 'burger'}
+        onClick={() => {
+          onFilterChange('burger');
+          setActiveCategory('burger');
+        }}
+      >
+        Burgers
+      </Button>
+      <Button
+        isActive={activeCategory === 'snack'}
+        onClick={() => {
+          onFilterChange('snack');
+          setActiveCategory('snack');
+        }}
+      >
+        Snacks
+      </Button>
     </div>
   );
 }
 
-export default CategoryFilter;
